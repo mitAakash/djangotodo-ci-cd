@@ -23,7 +23,7 @@ jobs:
           pip install django==3.2
 
       - name: Run migrations
-        working-directory: ./djangotodo-ci-cd/todoApp
+        working-directory: ./todoApp
         run: python manage.py migrate
 
       - name: Run server (test only)

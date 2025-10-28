@@ -31,4 +31,4 @@ jobs:
         run: |
           nohup python manage.py runserver 0.0.0.0:8000 &
           sleep 10
-          curl -f http://127.0.0.1:8000 || (echo "Server did not start!" && exit 1)
+          curl -f http://127.0.0.1:8000/todos || (echo "Server did not start!" && exit 1)

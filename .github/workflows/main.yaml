@@ -27,7 +27,7 @@ jobs:
         run: python manage.py migrate
 
       - name: Run server (test only)
-        working-directory: ./djangotodo-ci-cd/todoApp
+        working-directory: ./todoApp
         run: |
           nohup python manage.py runserver 0.0.0.0:8000 &
           sleep 10

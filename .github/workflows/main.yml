@@ -1,6 +1,8 @@
 name: Run Django App Steps
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
 
 jobs:
   build:
@@ -21,9 +23,11 @@ jobs:
           pip install django==3.2
 
       - name: Run migrations
+        working-directory: ./djangotodo-ci-cd/todoApp
         run: python manage.py migrate
 
       - name: Run server (test only)
+        working-directory: ./djangotodo-ci-cd/todoApp
         run: |
           nohup python manage.py runserver 0.0.0.0:8000 &
           sleep 10

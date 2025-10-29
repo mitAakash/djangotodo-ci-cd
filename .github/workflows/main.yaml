@@ -1,11 +1,44 @@
-name: Run Django App Steps
+name: CodeQL Scan → Django Build
 
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: '0 3 * * 1'  # weekly scheduled scan
 
 jobs:
+  codeql:
+    name: CodeQL Security Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      matrix:
+        language: [ 'python' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild (Python)
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
   build:
+    name: Run Django App Steps
+    needs: codeql  # ✅ run only after CodeQL completes successfully
     runs-on: ubuntu-latest
 
     steps:
